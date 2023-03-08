@@ -48,14 +48,19 @@ let assetFiles: Array<i_asset> = [];
 try {
 
 	assetFiles = mdir.list(assetsInput).map((entry) => {
+
+		const fullInputPath = `${assetsInput}/${entry}`;
+		const fullOutPath = `${assetsOutput}/${entry}`;
+		
 		return {
-			source: `${assetsInput}/${entry}`,
-			dest: `${assetsOutput}/${entry}`,
-			destNoExt: path.noExtension(`${assetsOutput}/${entry}`),
-			destDir: path.noFile(`${assetsOutput}/${entry}`),
+			source: fullInputPath,
+			dest: fullOutPath,
+			destNoExt: path.noExtension(fullOutPath),
+			destDir: path.noFile(fullOutPath),
 			name: entry
 		}
-	}).filter((entry) => (entry.source.includes('assets/') || entry.source.includes('/assets')));
+
+	}).filter((entry) => (entry.source.includes('assets') && (entry.source.endsWith('/') || entry.source.startsWith('/'))));
 
 } catch (error) {
 	console.error(mcon.colorText(' Directory does not exist ', 'red', 'reverse'), `: "${assetsInput}"`);
