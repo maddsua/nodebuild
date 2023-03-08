@@ -3,7 +3,7 @@ import fs from 'fs';
 //	128 nested directories max
 const maxSearchDepth = 128;
 
-export const list = (searchDir: string) => {
+export const list = (dirpath: string) => {
 	const results = [];
 	let depth = -1;	//	(0 - 1) so on the first run the nesting will be equal to zero
 
@@ -17,13 +17,13 @@ export const list = (searchDir: string) => {
 			const stat = fs.lstatSync(filePath);
 	
 			if (stat.isDirectory() && depth < maxSearchDepth) dir_search(filePath);
-				else if (!stat.isDirectory()) results.push(filePath.slice(searchDir.length + 1));
+				else if (!stat.isDirectory()) results.push(filePath.slice(dirpath.length + 1));
 		});
 		
 		depth--;
 	};
 
-	dir_search(searchDir);
+	dir_search(dirpath);
 	
 	return results;
 };
