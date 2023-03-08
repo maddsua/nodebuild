@@ -3,7 +3,7 @@ import sharp from 'sharp';
 import { exit } from 'process';
 
 import * as path from './path.js';
-import * as dir from './dir.js';
+import * as mdir from './dir.js';
 import * as mcon from './console.js';
 
 let inputs = '';
@@ -34,10 +34,18 @@ const quality = {
 
 console.log('Starting media assets processing...');
 
-const assetFiles = dir.list(assetsInput).filter((entry) => entry.includes('assets/'));
+let assetFiles: Array<string> = [];
+
+try {
+	assetFiles = mdir.list(assetsInput).filter((entry) => entry.includes('assets/'));
+} catch (error) {
+	console.error(mcon.colorText(' Directory does not exist ', 'red', 'reverse'), `: "${assetsInput}"`);
+	exit(1);	
+}
 
 if (!assetFiles.length) {
-	console.error(mcon.colorText(' No assets found ', 'red', 'reverse'), `in ${assetsInput}`);
+	console.error(mcon.colorText(' No assets found ', 'red', 'reverse'), `in "${assetsInput}"`);
+	exit(2);
 }
 
 //	get image files of formats that need to be converted
