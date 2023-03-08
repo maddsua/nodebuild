@@ -1,7 +1,8 @@
 {
 	"compilerOptions": {
 		"lib": ["DOM", "ES6", "ESNext"],
-		"target": "ES6",
+		"target": "ESNext",
+		"module": "ESNext",
 		"typeRoots": [
 			"node_modules/@types"
 		],

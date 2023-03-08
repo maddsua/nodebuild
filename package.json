@@ -1,5 +1,14 @@
 {
-  "dependencies": {
-    "@types/node": "^18.14.6"
-  }
+	"name": "@maddsua/nodebuild",
+	"version": "0.1.4",
+	"description": "A pack of different stuff maddsua uses in his apps",
+	"type": "module",
+	"bin": {
+		"ssg_assets": "./dist/ssg_assets.js"
+	},
+	"dependencies": {
+		"@types/node": "^18.14.6",
+		"@types/sharp": "^0.31.1",
+		"sharp": "^0.31.3"
+	}
 }
