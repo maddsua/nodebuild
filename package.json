@@ -1,6 +1,6 @@
 {
 	"name": "@maddsua/nodebuild",
-	"version": "0.2.0",
+	"version": "0.2.1",
 	"description": "A pack of different stuff I use in my apps",
 	"keywords": [
 		"build",
@@ -17,6 +17,9 @@
 		"ssg_assets": "./dist/ssg_assets.js",
 		"ssg_static": "./dist/ssg_static.js"
 	},
+	"exports": {
+		".": "./dist/index.js"
+	},	
 	"dependencies": {
 		"@types/fs-extra": "^11.0.1",
 		"@types/node": "^18.14.6",
