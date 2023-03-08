@@ -1,7 +1,8 @@
 {
 	"name": "@maddsua/nodebuild",
-	"version": "0.1.5",
-	"description": "A pack of different stuff maddsua uses in his apps",
+	"version": "0.1.51",
+	"description": "A pack of different stuff I use in my apps",
+	"keywords": ["build", "assets", "modules"],
 	"type": "module",
 	"repository": {
 		"type": "git",
