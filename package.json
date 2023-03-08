@@ -1,19 +1,26 @@
 {
 	"name": "@maddsua/nodebuild",
-	"version": "0.1.51",
+	"version": "0.1.52",
 	"description": "A pack of different stuff I use in my apps",
-	"keywords": ["build", "assets", "modules"],
+	"keywords": [
+		"build",
+		"assets",
+		"modules"
+	],
 	"type": "module",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/maddsua/nodebuild.git"
 	},
 	"bin": {
-		"ssg_assets": "./dist/ssg_assets.js"
+		"ssg_assets": "./dist/ssg_assets.js",
+		"ssg_static": "./dist/ssg_static.js"
 	},
 	"dependencies": {
+		"@types/fs-extra": "^11.0.1",
 		"@types/node": "^18.14.6",
 		"@types/sharp": "^0.31.1",
+		"fs-extra": "^11.1.0",
 		"sharp": "^0.31.3"
 	},
 	"scripts": {

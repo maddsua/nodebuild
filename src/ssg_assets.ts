@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import fs from 'fs';
 import sharp from 'sharp';
 import process from 'process';
