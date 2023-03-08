@@ -33,10 +33,28 @@ const quality = {
 
 console.log('Starting media assets processing...');
 
-let assetFiles: Array<string> = [];
+interface i_asset {
+	source: string,
+	dest: string,
+	destNoExt: string,
+	destDir: string,
+	name: string
+}
+
+let assetFiles: Array<i_asset> = [];
 
 try {
-	assetFiles = mdir.list(assetsInput).filter((entry) => (entry.includes('assets/') || entry.includes('/assets')));
+
+	assetFiles = mdir.list(assetsInput).map((entry) => {
+		return {
+			source: `${assetsInput}/${entry}`,
+			dest: `${assetsOutput}/${entry}`,
+			destNoExt: path.noExtension(`${assetsOutput}/${entry}`),
+			destDir: path.noFile(`${assetsOutput}/${entry}`),
+			name: entry
+		}
+	}).filter((entry) => (entry.source.includes('assets/') || entry.source.includes('/assets')));
+
 } catch (error) {
 	console.error(mcon.colorText(' Directory does not exist ', 'red', 'reverse'), `: "${assetsInput}"`);
 	process.exit(1);	
@@ -48,50 +66,44 @@ if (!assetFiles.length) {
 }
 
 //	get image files of formats that need to be converted
-const convertAssets = assetFiles.filter((item) => /\.(png)|(jpg)$/.test(item));
+const convertAssets = assetFiles.filter((entry) => /\.(png)|(jpg)$/.test(entry.name));
 
 //	compress the hell out of the images
 const queue = convertAssets.map(async (asset) => {
-	const srcpath = `${assetsInput}/${asset}`;
-	const destpath = `${assetsOutput}/${path.noExtension(asset)}`;
-	const destdir = `${assetsOutput}/${path.noFile(path.noExtension(asset))}`;
-	const isTransparent = asset.endsWith('.png');
+
+	const isTransparent = asset.name.endsWith('.png');
 	
-	if (!fs.existsSync(destdir)) fs.mkdirSync(destdir, {recursive: true});
+	if (!fs.existsSync(asset.destDir)) fs.mkdirSync(asset.destDir, {recursive: true});
 
 	try {
 
-		await sharp(srcpath).toFormat('webp', {quality: quality.webp}).toFile(`${destpath}.webp`);
-		await sharp(srcpath).toFormat('avif', {quality: quality.avif}).toFile(`${destpath}.avif`);
+		await sharp(asset.source).toFormat('webp', {quality: quality.webp}).toFile(`${asset.destNoExt}.webp`);
+		await sharp(asset.source).toFormat('avif', {quality: quality.avif}).toFile(`${asset.destNoExt}.avif`);
 
-		if (isTransparent) await sharp(srcpath).toFormat('png', {quality: quality.png, compressionLevel: 7}).toFile(`${destpath}.png`);
-			else await sharp(srcpath).toFormat('jpg', {quality: quality.jpg}).toFile(`${destpath}.jpg`);
+		if (isTransparent) await sharp(asset.source).toFormat('png', {quality: quality.png, compressionLevel: 7}).toFile(`${asset.destNoExt}.png`);
+			else await sharp(asset.source).toFormat('jpg', {quality: quality.jpg}).toFile(`${asset.destNoExt}.jpg`);
 
 	} catch (error) {
 		console.error('Sharp error:', error);
 		process.exit(11);
 	}
 
-	console.log(`Done [Image] ${destpath}`);
+	console.log(`Done [Image] ${asset.destNoExt}`);
 });
 
 await Promise.all(queue);
 
 //	get all the other files that we just want to copy
-const copyAssets = assetFiles.filter((item) => /\.(svg)|(webp)|(webm)|(avif)|(mp4)|(mov)|(mp3)|(ogg)|(ogv)|(gif)$/.test(item));
+const copyAssets = assetFiles.filter((entry) => /\.(svg)|(webp)|(webm)|(avif)|(mp4)|(mov)|(mp3)|(ogg)|(ogv)|(gif)$/.test(entry.name));
 copyAssets.forEach((asset) => {
 
-	if (asset.endsWith('.svg') && !asset.includes('_nobundle')) return;
+	if (asset.name.endsWith('.svg') && !asset.name.includes('_nobundle')) return;
 
-	const srcpath = `${assetsInput}/${asset}`;
-	const destpath = `${assetsOutput}/${asset}`;
-	const destdir = `${assetsOutput}/${path.noFile(asset)}`;
+	if (!fs.existsSync(asset.destDir)) fs.mkdirSync(asset.destDir, {recursive: true});
 
-	if (!fs.existsSync(destdir)) fs.mkdirSync(destdir, {recursive: true});
+	fs.copyFileSync(asset.source, asset.dest);
 
-	fs.copyFileSync(srcpath, destpath);
-
-	console.log(`Copied [File] ${destpath}`);
+	console.log(`Copied [File] ${asset.dest}`);
 });
 
 console.log('Assets processing done!');
