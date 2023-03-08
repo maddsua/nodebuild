@@ -1,6 +1,6 @@
 {
 	"name": "@maddsua/nodebuild",
-	"version": "0.1.4",
+	"version": "0.1.5",
 	"description": "A pack of different stuff maddsua uses in his apps",
 	"type": "module",
 	"repository": {
