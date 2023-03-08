@@ -6,22 +6,22 @@ import * as path from './path.js';
 import * as mdir from './dir.js';
 import * as mcon from './console.js';
 
-let inputs = '';
+let pathsInput = '';
 
 for (const arg of process.argv.slice(2)) {
 	if (/^.+\:.+$/.test(arg)) {
-		inputs = arg;
+		pathsInput = arg;
 		break;
 	}
 }
 
-if (!inputs.length) {
+if (!pathsInput.length) {
 	console.error('Run this script like this: node assets.mjs [input dir]:[output dir]')
 	process.exit(1);
 }
 
-let assetsInput = path.trim(inputs.slice(0, inputs.indexOf(':')));
-let assetsOutput = path.trim(inputs.slice(inputs.indexOf(':') + 1));
+let assetsInput = path.trim(pathsInput.slice(0, pathsInput.indexOf(':')));
+let assetsOutput = path.trim(pathsInput.slice(pathsInput.indexOf(':') + 1));
 
 //	static config
 const quality = {
