@@ -12,3 +12,9 @@ export const noFile = (path: string) => {
 	if (slash < 0) return './';
 	return path.slice(0, slash)
 };
+
+export const separate = (path:string) => {
+	const pathDir = path.match(/^.*\//)[0] || './';
+	const pathFile = pathDir.length > 1 ? path.substring(pathDir.length) : path;
+	return { dir: pathDir, file: pathFile };
+};
