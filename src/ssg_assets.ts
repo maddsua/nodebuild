@@ -6,7 +6,7 @@ import process from 'process';
 
 import * as path from './path.js';
 import * as mdir from './dir.js';
-import * as mcon from './console.js';
+import * as mcon from './format.js';
 
 let pathsInput = '';
 
