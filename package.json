@@ -3,6 +3,10 @@
 	"version": "0.1.4",
 	"description": "A pack of different stuff maddsua uses in his apps",
 	"type": "module",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/maddsua/nodebuild.git"
+	},
 	"bin": {
 		"ssg_assets": "./dist/ssg_assets.js"
 	},
@@ -10,5 +14,9 @@
 		"@types/node": "^18.14.6",
 		"@types/sharp": "^0.31.1",
 		"sharp": "^0.31.3"
+	},
+	"scripts": {
+		"build": "tsc",
+		"dev": "tsc --watch"
 	}
 }

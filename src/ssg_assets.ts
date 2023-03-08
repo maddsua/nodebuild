@@ -1,6 +1,6 @@
 import fs from 'fs';
 import sharp from 'sharp';
-import { exit } from 'process';
+import process from 'process';
 
 import * as path from './path.js';
 import * as mdir from './dir.js';
@@ -17,7 +17,7 @@ for (const arg of process.argv.slice(2)) {
 
 if (!inputs.length) {
 	console.error('Run this script like this: node assets.mjs [input dir]:[output dir]')
-	exit(1);
+	process.exit(1);
 }
 
 let assetsInput = path.trim(inputs.slice(0, inputs.indexOf(':')));
@@ -31,21 +31,20 @@ const quality = {
 	png: 85
 };
 
-
 console.log('Starting media assets processing...');
 
 let assetFiles: Array<string> = [];
 
 try {
-	assetFiles = mdir.list(assetsInput).filter((entry) => entry.includes('assets/'));
+	assetFiles = mdir.list(assetsInput).filter((entry) => (entry.includes('assets/') || entry.includes('/assets')));
 } catch (error) {
 	console.error(mcon.colorText(' Directory does not exist ', 'red', 'reverse'), `: "${assetsInput}"`);
-	exit(1);	
+	process.exit(1);	
 }
 
 if (!assetFiles.length) {
 	console.error(mcon.colorText(' No assets found ', 'red', 'reverse'), `in "${assetsInput}"`);
-	exit(2);
+	process.exit(2);
 }
 
 //	get image files of formats that need to be converted
@@ -70,7 +69,7 @@ const queue = convertAssets.map(async (asset) => {
 
 	} catch (error) {
 		console.error('Sharp error:', error);
-		exit(110);
+		process.exit(11);
 	}
 
 	console.log(`Done [Image] ${destpath}`);
