@@ -1,6 +1,6 @@
 {
 	"name": "@maddsua/nodebuild",
-	"version": "0.2.2",
+	"version": "0.2.21",
 	"description": "A pack of different stuff I use in my apps",
 	"keywords": [
 		"build",
@@ -8,6 +8,7 @@
 		"modules"
 	],
 	"main": "dist/index.js",
+	"types": "./dist/index.d.ts",
 	"type": "module",
 	"repository": {
 		"type": "git",
