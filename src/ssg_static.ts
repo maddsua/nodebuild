@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
-//	@ts-ignore
-import fse from 'fs-extra/esm';
+import fse from 'fs-extra';
 import process from 'process';
 
 try {
